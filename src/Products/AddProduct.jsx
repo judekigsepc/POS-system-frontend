@@ -12,7 +12,7 @@ function AddProduct () {
        image : '',
        name : '',
        prodCode : '',
-       sku : ' ',
+       sku : '',
        units:'',
        price : '',
        discount : '',
@@ -43,7 +43,13 @@ function AddProduct () {
   }
 
   const addProduct = () => {
-    addRecord('products', formData)
+    const prunedData = {}
+  Object.keys(formData).forEach((key) => {
+    if(formData[key] !== '') {
+          prunedData[key] = formData[key]
+    }
+  })
+    addRecord('products', prunedData)
   }
 
     return (

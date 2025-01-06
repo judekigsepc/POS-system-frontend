@@ -4,6 +4,7 @@ import { useState } from "react"
 
 import { payment, handlePaymentResult, confirmPayment,socketEventMessageHandler, printInvoice, emailInvoice, socketErrorHandler } from "../assets/functions"
 import { currency } from "../assets/utils"
+import { eventEmitter } from "../assets/events"
 
 
 function Payment ({cartTotal}) {
@@ -40,8 +41,10 @@ function Payment ({cartTotal}) {
         if(msg == 'invoice-ready'){
             setPrintModal(true)
             setInvoicePresent(true)
+            eventEmitter.emit('trigger-refresh')
         }
     })
+   
 
     return (
         <>

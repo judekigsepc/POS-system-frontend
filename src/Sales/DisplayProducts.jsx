@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { HiShoppingCart } from "react-icons/hi"
 import { addToCart, apiUrl, getAllRecords } from "../assets/functions";
 import {currency} from '../assets/utils'
+import { eventEmitter } from "../assets/events";
 
 function DisplayProducts() {
   const [products, setProducts] = useState('')
@@ -16,6 +17,10 @@ function DisplayProducts() {
     const {result} = await getAllRecords('products')
     setProducts(result)
   }
+
+  eventEmitter.on('trigger-refresh',async () => {
+          await getProducts()
+  })
   return (
     <>
 

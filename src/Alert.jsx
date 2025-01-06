@@ -14,7 +14,7 @@ export function AlertBar() {
     })
 
     socketSuccessMessageHandler((msg) => {
-        setAlertColor('success')
+        setAlertColor('success')  
         setAlertMessage(m => msg)
         setDismissed(false)
     })

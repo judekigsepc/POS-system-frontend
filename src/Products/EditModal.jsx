@@ -157,19 +157,24 @@ function EditModal ({openState,setOpenState,productId,refetch}) {
 
   <div className="flex flex-wrap space-x-2">
     <div>
-    <Button onClick={() => updateProduct()} color='success'>Update Product</Button>
+    
     </div>
 
     <div>
-    <Button onClick={() => deleteProduct()}  color = 'warning'>Delete Product</Button>
+   
     </div>
 
     <div>
-    <Button  onClick={() => setOpenState(false)} color="failure">Cancel</Button>
+   
     </div>
   </div>
 
              </Modal.Body>
+             <Modal.Footer>
+             <Button onClick={() => updateProduct()} color='success'>Save changes</Button>
+             <Button  onClick={() => setOpenState(false)} color="warning">Cancel</Button>
+             <Button onClick={() => deleteProduct()}  color = 'failure'>Delete Product</Button>
+             </Modal.Footer>
         </Modal>
         }
         

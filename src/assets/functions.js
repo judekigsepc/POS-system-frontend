@@ -57,6 +57,31 @@ const addRecord = async (collectionName,data) => {
 }
 }
 
+//CRUD OTHERS ADD FUNCTION
+const addNonFormDataRecord = async (collectionName,data) => {
+    try {
+        const response = await axios.post(`${apiUrl}/${collectionName}`, data)
+
+        successEmitter(response.data)
+        return response.data
+
+    }catch(err) {
+        handleError(err)
+    }
+}
+
+//CRUD NON FORM DATA UPDATE FUNCTION
+const updateNonFormDataRecord = async (collectionName,id,data) => {
+      try {
+        const response = await axios.put(`${apiUrl}/${collectionName}/${id}`, data)
+
+        successEmitter(response.data)
+        return response.data
+      }catch(err) {
+        handleError(err)
+      }
+}
+
 //CRUD UPDATE FUNCTION
 const updateRecord = async (collectionName,id,data) => {
     try {
@@ -279,7 +304,10 @@ const cleanCart = () => {
     socket.emit('cart-cleanup')
 }
 
-//Manual cart state
+//Function to emit collection calculations
+const calculateCollection = (productsData,discountData) => {
+    socket.emit('calculate-collection',{productsData,discountData})
+}
 
 
 //Function that handles results and changes in the cart
@@ -381,7 +409,15 @@ const handleDocResult = (callback) => {
         callback(`${apiUrl}/${pdfPath}`)
     })
 }
+
+//Handling collection calculating results 
+const handleCollectionResult = (callback) => {
+    socket.once('collection-calc-result' , (result) => {
+        callback(result)
+    })
+}
  
+
 const successEmitter = (responseData) => {
        const {message} = responseData
        eventEmitter.emit('success', message)
@@ -402,6 +438,8 @@ export {
     updateRecord, 
     deleteRecord,
     addRecord, 
+    addNonFormDataRecord,
+    updateNonFormDataRecord,
 
     //AUTH FUNCTIONS
     registerUser,
@@ -422,6 +460,8 @@ export {
     printInvoice,
     emailInvoice,
     cleanCart,
+    calculateCollection,
+    handleCollectionResult,
     apiUrl,
 
     //Handlers

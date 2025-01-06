@@ -26,15 +26,16 @@ import { Link } from "react-router-dom";
 
           <Sidebar.Collapse icon={HiShoppingBag} label="Products">
             
-            <Sidebar.Item><Link to='/product/add'>Add Products</Link></Sidebar.Item>
-            <Sidebar.Item><Link to='/product/stock'>Stock Management</Link></Sidebar.Item>
-
+            <Sidebar.Item><Link to='/products/add'>Add Products</Link></Sidebar.Item>
+            <Sidebar.Item><Link to='/products/stock'>Stock Management</Link></Sidebar.Item>
+            <Sidebar.Item><Link to='/products/collections'>Collection Management</Link></Sidebar.Item>
           </Sidebar.Collapse>
 
           <Sidebar.Collapse icon={HiDocumentReport} label="Reporting">
             <Sidebar.Item >Sales Summary</Sidebar.Item>
             <Sidebar.Item>Sales History</Sidebar.Item>
             <Sidebar.Item>Performance Report</Sidebar.Item>
+            <Sidebar.Item>Audit Trail</Sidebar.Item>
           </Sidebar.Collapse>
 
           <Sidebar.Collapse icon={HiAdjustments} label="Settings">

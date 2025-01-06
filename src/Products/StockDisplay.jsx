@@ -9,7 +9,7 @@ import { editIconRed, menuIcon } from "../assets/icons";
 
 import EditModal from "./EditModal";
 
-function StockDisplay({onManageClick}) {
+function StockDisplay() {
   const [products, setProducts] = useState('')
   const [infoModalOpen, setInfoModalOpen] = useState(false)
   const [infoModalData, setInfoModalData] = useState('')

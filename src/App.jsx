@@ -6,7 +6,10 @@ import AlertBar  from './Alert'
 
 import Sale from './Sales/Sale'
 import AddProduct from './Products/AddProduct'
-import StockManager  from './Products/StockManager'
+import StockDisplay from './Products/StockDisplay'
+import CollectionManagement from './Products/CollectionManagement'
+import SingleCollectionView from './Products/SingleCollectionView'
+
 
 function App () {
 
@@ -19,8 +22,10 @@ function App () {
     <Routes>
       <Route path='/' element={<Home/> } ></Route>
       <Route path='/sale' element={<Sale/>}></Route>
-      <Route path='/product/add' element={<AddProduct/>}></Route>
-      <Route path='/product/stock' element={<StockManager/>}></Route>
+      <Route path='/products/add' element={<AddProduct/>}></Route>
+      <Route path='/products/stock' element={<StockDisplay/>}></Route>
+      <Route path='/products/collections' element={<CollectionManagement/>}></Route>
+      <Route path='/products/collections/:id' element={<SingleCollectionView/>}></Route>
     </Routes>
     </BrowserRouter>
     </div>
