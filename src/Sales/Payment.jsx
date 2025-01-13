@@ -1,8 +1,8 @@
-import { Card, Button,TextInput,Modal, Dropdown, Textarea,Spinner } from "flowbite-react"
+import { Card, Button,TextInput,Modal, Dropdown, Textarea,Spinner, Label } from "flowbite-react"
 
 import { useState } from "react"
 
-import { payment, handlePaymentResult, confirmPayment,socketEventMessageHandler, printInvoice, emailInvoice, socketErrorHandler, holdSale } from "../assets/functions"
+import { payment, handlePaymentResult, confirmPayment,socketEventMessageHandler, printInvoice, emailInvoice, socketErrorHandler, holdSale, resumeSale } from "../assets/functions"
 import { currency } from "../assets/utils"
 import { eventEmitter } from "../assets/events"
 
@@ -16,6 +16,7 @@ function Payment ({cartTotal}) {
 
     const [openModal, setOpenModal] = useState(false);
     const [printModal, setPrintModal] = useState(false)
+    const [holdModalOpen, setHoldModalOpen] = useState(false)
  
     handlePaymentResult((data) => {
                setPayDetails(data)
@@ -35,6 +36,10 @@ function Payment ({cartTotal}) {
     const closePrintModal = () => {
         setPrintModal(false)
         setInvoicePresent(false)
+    }
+
+    const handleSaleModalOpen = () => {
+         setHoldModalOpen(true)
     }
 
     socketEventMessageHandler((msg) => {
@@ -64,7 +69,7 @@ function Payment ({cartTotal}) {
       </h1>
 
        <div className="flex space-x-2">
-       <Button onClick={() => holdSale('xtvh','6759c1e0599c1fe4c4e860e0','Insufficient funds')}>Hold</Button>
+       <Button onClick={() => handleSaleModalOpen()}>Hold</Button>
        <Button  color="success"  onClick={() => setOpenModal(true)}>Process Payment</Button>
        </div>
      
@@ -136,13 +141,54 @@ function Payment ({cartTotal}) {
                  </div>
                 
             }
-          
-
         </Modal.Body>
       </Modal>
+
+      <SaleHoldModal modalOpen={holdModalOpen} setModalOpen={setHoldModalOpen}/>
+      
     </Card>
         </>
     )
+}
+
+function SaleHoldModal ({modalOpen, setModalOpen}) {
+  const [identifier, setIdentifier] = useState('')
+  const [reason, setReason] = useState('not specified')
+
+  const handleSaleHold = () => {
+    holdSale(identifier,'673e5a45e30f72ad5888a4a1',reason)
+    closeModal()
+  }
+
+  const closeModal = () => {
+    setIdentifier('')
+    setReason('not specified')
+    setModalOpen(false)
+  }
+
+  return (
+     <Modal show={modalOpen} onClose={() => setModalOpen(false)} >
+        <Modal.Header >Sale hold details</Modal.Header>
+        <Modal.Body>
+
+            <Label>Identifier</Label>
+            <TextInput placeholder="Enter a phrase for quick identification of the sale"
+            onChange={(e) => setIdentifier(e.target.value)} value={identifier}>
+            </TextInput>
+
+            <Label>Sale hold Reason</Label>
+            <TextInput 
+            placeholder="Enter a reason for holding the sale OR leave blank"
+            onChange={(e) => setReason(e.target.value)} value={reason}>
+            </TextInput>
+
+        </Modal.Body>
+        <Modal.Footer>
+         <Button color="failure" onClick={() => closeModal()}> Cancel</Button>
+         <Button color="success" onClick={() => handleSaleHold()}>Hold Sale</Button>
+        </Modal.Footer>
+      </Modal>
+  )
 }
 
 export default Payment
