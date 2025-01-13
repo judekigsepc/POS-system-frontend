@@ -257,7 +257,10 @@ const socketMessageHandlers = {
     'alert' :socketAlertMessageHandler
 }
 
-
+//Function to get the whole cart
+const getFullCart = () => {
+    socket.emit('get_full_cart')
+}
 //Function to add to the cart
 const addToCart = (prodId,qty) => {
     socket.emit('add_to_cart', {prodId, qty})
@@ -316,6 +319,7 @@ const handleCartResult = (callback) => {
     socket.off('upt_result')
     socket.off('delete_command')
     socket.off('discount_result')
+    socket.off('full_cart_result')
 
     const [cart, setCart] = useState({
         cartProducts : [],
@@ -323,9 +327,12 @@ const handleCartResult = (callback) => {
         cartGeneralDiscount:0,
     }) 
     
-    
+    socket.once('full_cart_result',(cart) => {
+        setCart(cart)
+        callback(cart)
+    } )
     //addition result handler
-    socket.on('result', (data) => { 
+    socket.on('cart-add-result', (data) => { 
 
     const updatedCart = {
         ...cart,
@@ -381,11 +388,21 @@ const handleCartResult = (callback) => {
     //Clean up the cart
     socket.on('cart-cleanup',() => {
         cart.cartProducts = []
-        cart.cartTotal = 0
+        cart.cartTotal = 0 
         cart.cartGeneralDiscount = 0 
 
         callback(cart)
     })
+}
+
+//Handling holding of sales 
+const holdSale = (identifier,executor,reason) => {
+    socket.emit('hold-sale', {identifier,executor,reason})
+}
+
+//Handling resuming of sales
+const resumeSale = (saleId) => {
+    socket.emit('resume-sale', saleId)
 }
 
 //Function to handle payments, receipts and inventory updates
@@ -416,7 +433,6 @@ const handleCollectionResult = (callback) => {
         callback(result)
     })
 }
- 
 
 const successEmitter = (responseData) => {
        const {message} = responseData
@@ -430,6 +446,8 @@ const handleError = (err) => {
     const {error, details} = err.response.data
     eventEmitter.emit('error', `Error: ${error}. Details:${details}`) 
 }
+
+getFullCart()
 
 export {
     //CRUD EXPORTS
@@ -448,6 +466,7 @@ export {
     deleteUser,
 
    //REAL TIME FUNCTION EXPORTS
+    getFullCart,
     addToCart, 
     updateCart ,
     handleCartResult, 
@@ -462,6 +481,8 @@ export {
     cleanCart,
     calculateCollection,
     handleCollectionResult,
+    holdSale,
+    resumeSale,
     apiUrl,
 
     //Handlers

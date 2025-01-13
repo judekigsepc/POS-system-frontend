@@ -20,7 +20,9 @@ import { Link } from "react-router-dom";
               <Link to='/sale'>New Sale</Link>
             </Sidebar.Item>
 
-            <Sidebar.Item >Held Sales</Sidebar.Item>
+            <Sidebar.Item >
+              <Link to='/holds'>Held Sales</Link>
+              </Sidebar.Item>
           </Sidebar.Collapse>
 
 

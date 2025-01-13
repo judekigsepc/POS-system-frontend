@@ -1,8 +1,8 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Card, Button, TextInput } from "flowbite-react";
 
 
-import { deleteInCart, handleCartResult, handlePaymentResult, payment, updateCart } from "../assets/functions";
-import { useState } from "react";
+import { deleteInCart, getFullCart, handleCartResult, handlePaymentResult, payment, updateCart } from "../assets/functions";
+import { useEffect, useState } from "react";
 import { currency } from "../assets/utils";
 
 import Payment from "./Payment";
@@ -11,6 +11,9 @@ function Cart() {
     const [cartProducts, setCartProducts] = useState([])
     const [cartTotal,setCartTotal] = useState(0)
    
+       useEffect(() => {
+             getFullCart()
+       },[])
 
         handleCartResult((cart) => {
             setCartProducts(cart.cartProducts)

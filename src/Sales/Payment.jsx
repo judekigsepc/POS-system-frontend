@@ -2,7 +2,7 @@ import { Card, Button,TextInput,Modal, Dropdown, Textarea,Spinner } from "flowbi
 
 import { useState } from "react"
 
-import { payment, handlePaymentResult, confirmPayment,socketEventMessageHandler, printInvoice, emailInvoice, socketErrorHandler } from "../assets/functions"
+import { payment, handlePaymentResult, confirmPayment,socketEventMessageHandler, printInvoice, emailInvoice, socketErrorHandler, holdSale } from "../assets/functions"
 import { currency } from "../assets/utils"
 import { eventEmitter } from "../assets/events"
 
@@ -64,7 +64,7 @@ function Payment ({cartTotal}) {
       </h1>
 
        <div className="flex space-x-2">
-       <Button onClick={() => setOpenModal(true)}>Hold</Button>
+       <Button onClick={() => holdSale('xtvh','6759c1e0599c1fe4c4e860e0','Insufficient funds')}>Hold</Button>
        <Button  color="success"  onClick={() => setOpenModal(true)}>Process Payment</Button>
        </div>
      

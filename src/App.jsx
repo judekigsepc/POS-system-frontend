@@ -9,7 +9,7 @@ import AddProduct from './Products/AddProduct'
 import StockDisplay from './Products/StockDisplay'
 import CollectionManagement from './Products/CollectionManagement'
 import SingleCollectionView from './Products/SingleCollectionView'
-
+import HeldSales from './Sales/HeldSales'
 
 function App () {
 
@@ -22,11 +22,12 @@ function App () {
     <Routes>
       <Route path='/' element={<Home/> } ></Route>
       <Route path='/sale' element={<Sale/>}></Route>
+      <Route path='/holds' element={<HeldSales/>}></Route>
       <Route path='/products/add' element={<AddProduct/>}></Route>
       <Route path='/products/stock' element={<StockDisplay/>}></Route>
       <Route path='/products/collections' element={<CollectionManagement/>}></Route>
       <Route path='/products/collections/:id' element={<SingleCollectionView/>}></Route>
-    </Routes>
+    </Routes>  
     </BrowserRouter>
     </div>
     
